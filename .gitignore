@@ -1,5 +1,6 @@
 # Ignore secrets
 .gitmodules
+.gitmodule
 
 # 11ty
 _site/*
