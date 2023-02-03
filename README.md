@@ -130,6 +130,82 @@ your new changes automatically.
 Congratulations—you made something with Eleventy!
 Now put it to work with templating syntax, front matter, and data files.
 
+## My Notes
+
+### Eleventy Configuration
+
+This is where all the logic happens, **FILL IN DOCUMENTATION**.
+
+#### Eleventy Collecitons
+
+**FILL IN DOCUMENTATION**
+
+#### Advanced Filtering & Sorting of Collection
+
+To add custom filtering and sorting of frontmatter in the files,
+go into the `./.eleventy.js` file.
+Then add a snippet kind of like the code below,
+which will look at each file in the [glob pattern][glob-zk],
+`site/notes/*.md`.
+Then add an anonymous callback function that returns `collection.getFilteredByGlob`.
+Chain that with a `sort` method since we know it's an array.
+Now for the good stuff,
+add a `debugger` statement so we can use a console to debug
+the items that will get sorted.
+
+```js
+// ./.eleventy.js
+module.exports = {
+  // ...
+  eleventyConfig.addCollection('notes', function(collection) {
+    return collection.getFilteredByGlob('site/notes/*.md').sort(function(a, b) {
+      debugger;
+      return b.data.modified - a.data.modified;
+    });
+  });
+  // ...
+};
+```
+
+If we examine the list of objects during that debug statement,
+we can use a debug console to bring up the contents of `a`.
+There's a lot in there.
+Let's list some interesting things:
+
+* `data`: This is the frontmatter data of that file merged with 11ty data
+  * `collections`: The collection relationships found by 11ty by default
+    * These can be used to create links to different tags
+  * `page`: Contains properties about this page in particular
+    * `date`: 11ty's file or git based computation of modified/creation date
+    * `filePathStem`: Relative file path w.r.t. the collection location.
+      * In this case it would be `/notes/NOTE_FILE_NAME_WITHOUT_EXTENSION`
+    * `fileSlug`: The filename slug without extension
+      * In this case it would be `NOTE_FILE_NAME_WITHOUT_EXTENSION`
+      * Like `filePathStem` but without the relative directories to collection
+    * `url`: The suffix url computed for this file
+      * In this case it would be `/notes/NOTE_FILE_NAME_WITHOUT_EXTENSION`
+    * Then all other frontmatter properties present in that file.
+      * In my case I have a script to update `modified` times
+      * I want the most recent `modified` file to show up first
+
+By using the `a.data.modified - b.data.modified` statement,
+inside of the `sort()` function,
+I can tell it to sort the collection by any frontmatter data I want.
+In this case I have a `modified` property in every front matter file.
+Scripts keep it up to date with any changes in the file system,
+that's another matter.
+By using the date within `a.data.modified` & `b.data.modified`,
+I can create a negative or positive predicate to determine which date is newer.
+If I want the newer modified note in `a` to appear earlier,
+I need to return a **negative** number.
+Since when subtracting dates,
+the larger number is the newer date,
+I need to subtract `a`'s date to `b`'s date,
+resulting in a negative.
+
+>This can of course be verified at this point in the debugger console,
+>just type `b.data.modified - a.data.modifed` and the answer should be negative.
+
 ## References
 
 * [Eleventy (11ty) Homepage][11ty]
@@ -146,3 +222,10 @@ Now put it to work with templating syntax, front matter, and data files.
 [11ty-templates]: https://www.11ty.dev/docs/languages/ "Template Languages (from 11ty.dev/docs)"
 [browsersync-docs]: https://browsersync.io/docs/#requirements "BrowserSync Docs: Requirements (from browsersync.io)"
 [11ty-layouts]: https://www.11ty.dev/docs/layouts/ "Layouts (from 11ty.dev/docs)"
+
+### Note Links
+
+* [Glob Patterns][glob-zk]
+
+<!-- Hidden Reference Links Below Here -->
+[glob-zk]: ./site/notes/glob-pattern.md "Glob Patterns"
