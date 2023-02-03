@@ -14,7 +14,7 @@ NOTES_URL="https://${ME}:${NOTES_GH_TOKEN}@github.com/${ME}/notes.git"
 
 if [ ! -f .gitmodules ]; then
     printf '[submodule "site/notes"]\n' >> .gitmodules
-    printf '    path = site/notes\n' >> .gitmodules
+    printf '    path = ./site/notes\n' >> .gitmodules
     printf "    url = $NOTES_URL\n" >> .gitmodules
 fi
 
