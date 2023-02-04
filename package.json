@@ -4,10 +4,11 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "get-notes": "git submodule update --init --recursive",
-    "update-notes": "npm run get-notes; git submodule foreach pull",
+    "get-notes-force": "git submodule add --force https://github.com/marcus-grant/markipedia site/notes",
+    "get-notes": "git submodule init",
+    "update-notes": "npm run get-notes; git submodule update",
     "start": "npm run update-notes; npx @11ty/eleventy --serve",
-    "build": "npm run update-notes; npx @11ty/eleventy",
+    "build": "npm run get-notes-force; npx @11ty/eleventy",
     "debug": "DEBUG=Eleventy* npm run build",
     "start-debug": "DEBUG=Eleventy* npm run start",
     "benchmark": "DEBUG=Eleventy:Benchmark* npx @11ty/eleventy"
