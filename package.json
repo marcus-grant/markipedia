@@ -4,10 +4,9 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "get-notes": "./scripts/get-notes.sh",
-    "rm-mods": "./scripts/rm-mods.sh",
+    "get-notes": "git submodule foreach update",
     "start": "npm run get-notes; npx @11ty/eleventy --serve",
-    "build": "npm run rm-mods; npm run get-notes; npx @11ty/eleventy",
+    "build": "npm run get-notes; npx @11ty/eleventy",
     "debug": "DEBUG=Eleventy* npm run build",
     "start-debug": "DEBUG=Eleventy* npm run start",
     "benchmark": "DEBUG=Eleventy:Benchmark* npx @11ty/eleventy"

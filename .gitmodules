@@ -1,0 +1,3 @@
+[submodule "site/notes"]
+	path = site/notes
+	url = https://github.com/marcus-grant/notes
