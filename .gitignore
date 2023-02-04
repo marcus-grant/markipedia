@@ -1,9 +1,6 @@
 # 11ty
 _site/*
 
-#submodule
-site/notes
-
 # Logs
 logs
 *.log
