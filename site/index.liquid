@@ -1,10 +1,14 @@
 <!doctype html>
 <html>
   <head>
-    <title>Page title</title>
+    <title>{{ meta.siteName }}</title>
   </head>
   <body>
-    <h1>Most Recently Modified Notes</h1>
+    <h1>{{ meta.siteName }}</h1>
+    <p>
+      <i>by {{ meta.authorName }}</i>
+    </p>
+    <h2>Most Recently Modified Notes</h2>
     {%- for note in collections.notes -%}
       <a href="{{ note.url }}">
         <div>

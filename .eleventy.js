@@ -1,9 +1,13 @@
 module.exports = function(eleventyConfig) {
-  // Add debugger filter to debug data passed to templates
-   eleventyConfig.addFilter('debugger', function(item) {
-    console.log(item);
-    debugger;
+  // Add global data
+  eleventyConfig.addGlobalData('meta', {
+    url: process.env.URL || 'http://localhost:8080',
+    siteName: 'Markipedia',
+    siteDescription: ('Marcus Grant\'s personal Wikipedia, '
+      + 'built with Eleventy & the Zettelkasten method.'),
+    authorName: 'Marcus Grant',
   });
+
   // Add notes to collection
   eleventyConfig.addCollection('notes', function(collection) {
     return collection.getFilteredByGlob('site/notes/*.md')
@@ -27,10 +31,17 @@ module.exports = function(eleventyConfig) {
       });
   });
   // Get static assets like images
-  eleventyConfig.addPassthroughCopy('site/notes/*.jpg');
-  eleventyConfig.addPassthroughCopy('site/notes/*.jpeg');
-  eleventyConfig.addPassthroughCopy('site/notes/*.png');
-  eleventyConfig.addPassthroughCopy('site/notes/*.svg');
+  eleventyConfig.addPassthroughCopy('site/notes/*.jpg', './');
+  eleventyConfig.addPassthroughCopy('site/notes/*.jpeg', './');
+  eleventyConfig.addPassthroughCopy('site/notes/*.png', './');
+  eleventyConfig.addPassthroughCopy('site/notes/*.svg', './');
+
+  // Add debugger filter to debug data passed to templates
+   eleventyConfig.addFilter('debugger', function(item) {
+    console.log(item);
+    debugger;
+  });
+
   // Return object options
   return {
     dir: {
