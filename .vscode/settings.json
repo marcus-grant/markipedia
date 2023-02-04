@@ -2,5 +2,9 @@
     "cSpell.words": [
         "Markipedia",
         "mdman"
-    ]
+    ],
+    "markdownlint.ignore": [
+        "./site/notes",
+    ],
+    "liquid.format.enable": true,
 }
