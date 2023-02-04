@@ -14,3 +14,6 @@ git rm --cached --quiet ${submodule_name}
 # Delete relevant git objects
 rm -rf .git/modules/${submodule_name}
 rm -rf .git/modules/${site}
+
+# Finally delete the directory if it exists
+rm -rf site/notes
