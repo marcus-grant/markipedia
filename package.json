@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "get-notes-force": "git submodule add --force https://github.com/marcus-grant/markipedia site/notes",
+    "get-notes-force": "rm -rf site/notes; git submodule add --force https://github.com/marcus-grant/markipedia site/notes",
     "get-notes": "git submodule init",
     "update-notes": "npm run get-notes; git submodule update",
     "start": "npm run update-notes; npx @11ty/eleventy --serve",
