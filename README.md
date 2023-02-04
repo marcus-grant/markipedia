@@ -288,6 +288,22 @@ we simply do something like this to render the title into HTML.
 A lot of this information came from this
 [part of 11ty's docs on custom filtering & sorting][11ty-collections-custom-filt-sort]
 
+### Adding Global Data
+
+It's possible to [add global data to a site][11ty-data-global].
+
+```js
+module.exports = function(eleventyConfig) {
+  // Add global data
+  eleventyConfig.addGlobalData('meta', {
+    url: process.env.URL || 'http://localhost:8080',
+    siteName: 'Markipedia',
+    siteDescription: ('Marcus Grant\'s personal Wikipedia, '
+      + 'built with Eleventy & the Zettelkasten method.'),
+    authorName: 'Marcus Grant',
+  });
+```
+
 ## References
 
 * [Eleventy (11ty) Homepage][11ty]
@@ -298,7 +314,7 @@ A lot of this information came from this
 * [Layouts (from 11ty.dev/docs)][11ty-layouts]
 * [Collections: Custom Filtering & Sorting (from 11ty.dev/docs)][11ty-collections-custom-filt-sort]
 * [gray-matter: Frontmatter YAML parser (from Github by jonschlinkert)][gh-gray-matter]
-[gh-gray-matter]: https://github.com/jonschlinkert/gray-matter "gray-matter: Frontmatter YAML parser (from Github by jonschlinkert)"
+* [Global Data (from 11ty.dev/docs)][11ty-data-global]
 
 <!-- Hidden Reference Links Below Here -->
 [11ty]: 11ty.dev "Eleventy (11ty) Homepage"
@@ -308,6 +324,8 @@ A lot of this information came from this
 [browsersync-docs]: https://browsersync.io/docs/#requirements "BrowserSync Docs: Requirements (from browsersync.io)"
 [11ty-layouts]: https://www.11ty.dev/docs/layouts/ "Layouts (from 11ty.dev/docs)"
 [11ty-collections-custom-filt-sort]: https://www.11ty.dev/docs/collections/#advanced-custom-filtering-and-sorting "Collections: Custom Filtering & Sorting (from 11ty.dev/docs)"
+[gh-gray-matter]: https://github.com/jonschlinkert/gray-matter "gray-matter: Frontmatter YAML parser (from Github by jonschlinkert)"
+[11ty-data-global]: https://www.11ty.dev/docs/data-global/ "Global Data (from 11ty.dev/docs)"
 
 ### Note Links
 
