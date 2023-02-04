@@ -136,7 +136,7 @@ Now put it to work with templating syntax, front matter, and data files.
 
 This is where all the logic happens, **FILL IN DOCUMENTATION**.
 
-#### Eleventy Collecitons
+### Eleventy Collecitons
 
 **FILL IN DOCUMENTATION**
 
@@ -206,6 +206,88 @@ resulting in a negative.
 >This can of course be verified at this point in the debugger console,
 >just type `b.data.modified - a.data.modifed` and the answer should be negative.
 
+#### Computing Data During Collection Stage
+
+To add extra data that wouldn't otherwise be created by 11ty or its plugins,
+it's best to do this during any `addCollection` function calls
+in the 11ty configuration.
+
+```js
+// ./.eleventy.js
+module.exports = {
+// ...
+  eleventyConfig.addCollection('notes', function(collection) {
+    return collection.getFilteredByGlob('site/notes/*.md')
+      .sort(function(a, b) {
+        return b.data.modified - a.data.modified;})
+      .map(function(item){
+        // Pull out the first markdown h1 header
+        // debugger;
+        let { content } = item.template.frontMatter;
+        const title = content.split(/^# (.*)/m)[1];
+        item.data = { ...item.data, title };
+        return item;
+      });
+  });
+  // ...
+};
+```
+
+Here we add to the `sort` step of the `getFilteredGlob` callback,
+a `map` function callback to pull out a `title` from
+the built-in `frontMatter.content` property.
+Every page added in a collection is checked for frontmatter,
+using [the gray-matter frontmatter parser][gh-gray-matter].
+Part if that parsing, seperates the `content` of the file,
+not including the frontmatter,
+then stores only the `contents` within the `frontMatter` object.
+
+Knowing this,
+there's now data from the collections that can be accessed to
+extract a title from the first *h1* or `#` header in markdown.
+The [regex][regex-zk] `/^#\s(.*)/m` does a few things:
+
+* `^`: Matches the beginning of the string.
+  * Or in this case, due to the `m` flag, the beginning of a line.
+* `#`: Matches the markdown *h1* header marker.
+* `SPACE`: Matches the expected space after the `#` character.
+* `()`: Capture group:
+  * Groups these tokens together for matching as substring.
+  * `.`: Matches any character except line breaks.
+    * `*`: Match 0 or more of the preceeding `.` token.
+      * *ie match 0 or more of any character except line breaks.*
+* `/m`: Multiline flag, beginning/end anchors start/end according to line-break.
+
+Put these together and you will capture only *h1* headers and their text.
+And when using Javascript's `string` prototype function `split`,
+you are left with only lines of text preceeding an *h1* header.
+So if we pull out the second item from that split, `[1]`,
+we are left with the first *h1* header of every file ready to store as `title`.
+
+Then in a template that might want the title,
+like say an index of all notes pages,
+we simply do something like this to render the title into HTML.
+
+```liquid
+<h1>Most Recently Modified Notes</h1>
+{%- for note in collections.notes -%}
+  <a href="{{ note.url }}">
+    <div>
+      <h3>{{ note.data.title | 'Untitled' }}</h3>
+      <div>
+        <span>Last Updated: {{ note.data.modified | default: 'n/a' }}</span>
+        <span>First Created: {{ note.data.created | default: 'n/a' }}</span>
+      </div>
+    </div>
+  </a>
+{%- endfor -%}
+```
+
+#### Further Reading
+
+A lot of this information came from this
+[part of 11ty's docs on custom filtering & sorting][11ty-collections-custom-filt-sort]
+
 ## References
 
 * [Eleventy (11ty) Homepage][11ty]
@@ -214,6 +296,9 @@ resulting in a negative.
 * [Template Languages (from 11ty.dev/docs)][11ty-templates]
 * [BrowserSync Docs: Requirements (from browsersync.io)][browsersync-docs]
 * [Layouts (from 11ty.dev/docs)][11ty-layouts]
+* [Collections: Custom Filtering & Sorting (from 11ty.dev/docs)][11ty-collections-custom-filt-sort]
+* [gray-matter: Frontmatter YAML parser (from Github by jonschlinkert)][gh-gray-matter]
+[gh-gray-matter]: https://github.com/jonschlinkert/gray-matter "gray-matter: Frontmatter YAML parser (from Github by jonschlinkert)"
 
 <!-- Hidden Reference Links Below Here -->
 [11ty]: 11ty.dev "Eleventy (11ty) Homepage"
@@ -222,10 +307,13 @@ resulting in a negative.
 [11ty-templates]: https://www.11ty.dev/docs/languages/ "Template Languages (from 11ty.dev/docs)"
 [browsersync-docs]: https://browsersync.io/docs/#requirements "BrowserSync Docs: Requirements (from browsersync.io)"
 [11ty-layouts]: https://www.11ty.dev/docs/layouts/ "Layouts (from 11ty.dev/docs)"
+[11ty-collections-custom-filt-sort]: https://www.11ty.dev/docs/collections/#advanced-custom-filtering-and-sorting "Collections: Custom Filtering & Sorting (from 11ty.dev/docs)"
 
 ### Note Links
 
 * [Glob Patterns][glob-zk]
+* [Regular Expressions][regex-zk]
 
 <!-- Hidden Reference Links Below Here -->
 [glob-zk]: ./site/notes/glob-pattern.md "Glob Patterns"
+[regex-zk]: ./site/notes/regex.md "Regular Expressions"
