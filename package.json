@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "get-notes-force": "rm -rf site/notes; git submodule add --force https://github.com/marcus-grant/notes site/notes",
     "get-notes": "git submodule init",
-    "update-notes": "npm run get-notes; git submodule update",
+    "update-notes": "npm run get-notes; git submodule update --remote",
     "start": "npm run update-notes; npx @11ty/eleventy --serve",
     "build": "npm run get-notes-force; npx @11ty/eleventy",
     "debug": "DEBUG=Eleventy* npm run build",
