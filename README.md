@@ -132,9 +132,99 @@ Now put it to work with templating syntax, front matter, and data files.
 
 ## My Notes
 
+### Some Starting Tips
+
+
 ### Eleventy Configuration
 
 This is where all the logic happens, **FILL IN DOCUMENTATION**.
+
+#### Debugger Filter
+
+##### Using a Filter to Debug 11ty
+
+A helpful filter to add to the configuration is one used for debugging.
+It will trigger the `debugger` and
+it will `console.log()` the object passed to it.
+This will make it much easier to figure out the data structures used to
+template pages and work with the generator functions.
+
+So in a template you would use the `debugger` filter by
+taking some data in the template,
+then passing it to the `debugger` filter added in the configuration.
+
+```liquid
+{{ post.data | debugger }}
+```
+
+The `console.log` will then print out in the terminal what
+the `post`'s `data` looks like.
+And if you're on an editor with a node debugger like VSCode,
+it will pause on the filter so you can examine what's going on.
+First however,
+you need to implement the `debugger` filter in the 11ty configuration.
+
+```js
+// .eleventy.js
+module.exports = {
+  // ...
+  eleventyConfig.addFilter("debugger", (...args) => {
+    console.log(...args)
+    debugger;
+  });
+  // ...
+};
+```
+
+##### Debugging with VSCode
+
+Sure,
+`console.log` is helpful,
+but having a full blown debugger like the one built into VSCode is better.
+To debug with VSCode you need to:
+
+1. Create a directory inside the workspace called `./.vscode`
+2. Create a file called `./.vscode/launch.json` inside that directory.
+3. Add a debug task inside the `launch.json` file to run 11ty with the debugger.
+
+```json
+  {
+      "name": "11ty",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/.bin/eleventy",
+      "stopOnEntry": false,
+      "args": [],
+      "cwd": "${workspaceRoot}",
+      "console": "internalConsole",
+  }
+```
+
+If you want to have it debug while it's live or watching for file changes...
+
+```json
+  "args": ["--watch"],
+```
+
+This also works really well when you need to
+debug collection logic and structure during the data cascade.
+
+```js
+// .eleventy.js
+module.exports = {
+  // ...
+  eleventyConfig.addCollection("series", function(collection) {
+    // i don't know whats in collection.
+    debugger;
+  });
+  // ...
+};
+```
+
+##### Further Reading
+
+A lot of this section's tips came from these
+[tips for debugging 11ty (from griffa.dev)][griffa-tips-debug-11ty].
 
 ### Eleventy Collecitons
 
@@ -313,6 +403,7 @@ module.exports = function(eleventyConfig) {
 * [BrowserSync Docs: Requirements (from browsersync.io)][browsersync-docs]
 * [Layouts (from 11ty.dev/docs)][11ty-layouts]
 * [Collections: Custom Filtering & Sorting (from 11ty.dev/docs)][11ty-collections-custom-filt-sort]
+* [Tips for Debugging 11ty (from griffa.dev)][griffa-tips-debug-11ty]
 * [gray-matter: Frontmatter YAML parser (from Github by jonschlinkert)][gh-gray-matter]
 * [Global Data (from 11ty.dev/docs)][11ty-data-global]
 
@@ -324,6 +415,7 @@ module.exports = function(eleventyConfig) {
 [browsersync-docs]: https://browsersync.io/docs/#requirements "BrowserSync Docs: Requirements (from browsersync.io)"
 [11ty-layouts]: https://www.11ty.dev/docs/layouts/ "Layouts (from 11ty.dev/docs)"
 [11ty-collections-custom-filt-sort]: https://www.11ty.dev/docs/collections/#advanced-custom-filtering-and-sorting "Collections: Custom Filtering & Sorting (from 11ty.dev/docs)"
+[griffa-tips-debug-11ty]: https://griffa.dev/posts/tips-for-debugging-in-11ty/ "Tips for Debugging 11ty (from griffa.dev)"
 [gh-gray-matter]: https://github.com/jonschlinkert/gray-matter "gray-matter: Frontmatter YAML parser (from Github by jonschlinkert)"
 [11ty-data-global]: https://www.11ty.dev/docs/data-global/ "Global Data (from 11ty.dev/docs)"
 
