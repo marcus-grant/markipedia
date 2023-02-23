@@ -16,6 +16,9 @@
   "keywords": [],
   "author": "",
   "license": "AGPLv3",
+  "dependencies": {
+    "notes": "git+https://github.com/marcus-grant/notes.git#main"
+  },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.2"
   }

@@ -130,18 +130,14 @@ your new changes automatically.
 Congratulations—you made something with Eleventy!
 Now put it to work with templating syntax, front matter, and data files.
 
-## My Notes
 
-### Some Starting Tips
-
-
-### Eleventy Configuration
+## Eleventy Configuration
 
 This is where all the logic happens, **FILL IN DOCUMENTATION**.
 
-#### Debugger Filter
+### Debugger Filter
 
-##### Using a Filter to Debug 11ty
+#### Using a Filter to Debug 11ty
 
 A helpful filter to add to the configuration is one used for debugging.
 It will trigger the `debugger` and
@@ -176,7 +172,7 @@ module.exports = {
 };
 ```
 
-##### Debugging with VSCode
+#### Debugging with VSCode
 
 Sure,
 `console.log` is helpful,
@@ -221,16 +217,16 @@ module.exports = {
 };
 ```
 
-##### Further Reading
+#### Further Reading
 
 A lot of this section's tips came from these
 [tips for debugging 11ty (from griffa.dev)][griffa-tips-debug-11ty].
 
-### Eleventy Collecitons
+## Eleventy Collections
 
 **FILL IN DOCUMENTATION**
 
-#### Advanced Filtering & Sorting of Collection
+### Advanced Filtering & Sorting of Collection
 
 To add custom filtering and sorting of frontmatter in the files,
 go into the `./.eleventy.js` file.
@@ -296,7 +292,7 @@ resulting in a negative.
 >This can of course be verified at this point in the debugger console,
 >just type `b.data.modified - a.data.modifed` and the answer should be negative.
 
-#### Computing Data During Collection Stage
+### Computing Data During Collection Stage
 
 To add extra data that wouldn't otherwise be created by 11ty or its plugins,
 it's best to do this during any `addCollection` function calls
@@ -373,7 +369,7 @@ we simply do something like this to render the title into HTML.
 {%- endfor -%}
 ```
 
-#### Further Reading
+### Further Reading
 
 A lot of this information came from this
 [part of 11ty's docs on custom filtering & sorting][11ty-collections-custom-filt-sort]
