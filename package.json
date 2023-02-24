@@ -5,16 +5,18 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx @11ty/eleventy --serve",
-    "build": "npx @11ty/eleventy",
+    "build": "npm run rm-notes; npm run install; npx @11ty/eleventy",
     "debug": "DEBUG=Eleventy* npm run build",
     "start-debug": "DEBUG=Eleventy* npm run start",
-    "benchmark": "DEBUG=Eleventy:Benchmark* npx @11ty/eleventy"
+    "benchmark": "DEBUG=Eleventy:Benchmark* npx @11ty/eleventy",
+    "rm-notes": "rm -rf node_modules/notes",
+    "install": "npm install notes"
   },
   "keywords": [],
   "author": "",
   "license": "AGPLv3",
   "dependencies": {
-    "notes": "git+https://github.com/marcus-grant/notes.git#main"
+    "notes": "github:marcus-grant/notes#main"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.2"
