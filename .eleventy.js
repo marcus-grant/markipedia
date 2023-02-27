@@ -30,11 +30,31 @@ module.exports = function(eleventyConfig) {
         return item;
       });
   });
-  // Get static assets like images
-  eleventyConfig.addPassthroughCopy('site/notes/*.jpg', './');
-  eleventyConfig.addPassthroughCopy('site/notes/*.jpeg', './');
-  eleventyConfig.addPassthroughCopy('site/notes/*.png', './');
-  eleventyConfig.addPassthroughCopy('site/notes/*.svg', './');
+
+  // Ignore all files except markdown in the notes folder
+  eleventyConfig.setTemplateFormats(['liquid', 'md', 'njk', 'html', 'css', 'png', 'jpg', 'jpeg']);
+
+  //Modify any image paths to be relative to the root
+  eleventyConfig.addTransform('imgPath', function(content, outputPath) {
+    if (outputPath && outputPath.endsWith('.html')) {
+      const imgPathRegex = /(<img.*?src=")(.*?)"/g;
+      content = content.replace(imgPathRegex, function(_, p1, p2) {
+        // If the path has a current relative directory mark,
+        // replace it with a parent dir mark
+        let newTag = '';
+        if (p2.startsWith('./')) {
+          newTag = `${p1}${p2.replace('./', '../')}"`;
+        } // If the path has no relative directory mark, add a parent dir mark
+        else if (!p2.startsWith('../')) {
+          newTag = `${p1}../${p2}"`;
+        } else { // Otherwise just return the original tag
+          newTag = `${p1}${p2}"`;
+        } return newTag;
+      });
+    }
+
+    return content;
+  });
 
   // Add debugger filter to debug data passed to templates
    eleventyConfig.addFilter('debugger', function(item) {
@@ -47,6 +67,6 @@ module.exports = function(eleventyConfig) {
     dir: {
       input: 'site',
       output: '_site',
-    },
+    }
   };
 };
