@@ -130,7 +130,6 @@ your new changes automatically.
 Congratulations—you made something with Eleventy!
 Now put it to work with templating syntax, front matter, and data files.
 
-
 ## Eleventy Configuration
 
 This is where all the logic happens, **FILL IN DOCUMENTATION**.
@@ -392,6 +391,8 @@ module.exports = function(eleventyConfig) {
 
 ## References
 
+### Web Links
+
 * [Eleventy (11ty) Homepage][11ty]
 * [mdman: Markdown Frontmatter file utilities (from Github)][mg-mdman-gh]
 * [Getting Started (from 11ty.dev/docs)][11ty-get-start]
@@ -400,8 +401,10 @@ module.exports = function(eleventyConfig) {
 * [Layouts (from 11ty.dev/docs)][11ty-layouts]
 * [Collections: Custom Filtering & Sorting (from 11ty.dev/docs)][11ty-collections-custom-filt-sort]
 * [Tips for Debugging 11ty (from griffa.dev)][griffa-tips-debug-11ty]
+* [Transform (from 11ty.dev/docs)][11ty-docs-config-transform]
 * [gray-matter: Frontmatter YAML parser (from Github by jonschlinkert)][gh-gray-matter]
 * [Global Data (from 11ty.dev/docs)][11ty-data-global]
+* [Why I Migrated from Gatsby to Eleventy (from marcradziwill by Marc Radziwill)][why-gatsby-to-11ty-radziwill]
 
 <!-- Hidden Reference Links Below Here -->
 [11ty]: 11ty.dev "Eleventy (11ty) Homepage"
@@ -412,8 +415,10 @@ module.exports = function(eleventyConfig) {
 [11ty-layouts]: https://www.11ty.dev/docs/layouts/ "Layouts (from 11ty.dev/docs)"
 [11ty-collections-custom-filt-sort]: https://www.11ty.dev/docs/collections/#advanced-custom-filtering-and-sorting "Collections: Custom Filtering & Sorting (from 11ty.dev/docs)"
 [griffa-tips-debug-11ty]: https://griffa.dev/posts/tips-for-debugging-in-11ty/ "Tips for Debugging 11ty (from griffa.dev)"
+[11ty-docs-config-transform]: https://www.11ty.dev/docs/config/#transforms "Transform (from 11ty.dev/docs)"
 [gh-gray-matter]: https://github.com/jonschlinkert/gray-matter "gray-matter: Frontmatter YAML parser (from Github by jonschlinkert)"
 [11ty-data-global]: https://www.11ty.dev/docs/data-global/ "Global Data (from 11ty.dev/docs)"
+[why-gatsby-to-11ty-radziwill]: ./https://marcradziwill.com/blog/why-i-migrated-my-website-from-gatsbyjs-to-eleventy/ "Why I Migrated from Gatsby to Eleventy (from marcradziwill by Marc Radziwill)"
 
 ### Note Links
 
