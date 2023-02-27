@@ -14,6 +14,8 @@ The result is a personal Wikipedia like site where I can review my notes.
 
 ## Eleventy: Getting Started
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6ba39389-9b0a-40d7-b667-7a2f3c278f28/deploy-status)](https://app.netlify.com/sites/markipedia/deploys)
+
 *These steps below follow*
 [Eleventy's Getting Started documentation][11ty-get-start]
 
@@ -223,7 +225,7 @@ A lot of this section's tips came from these
 
 ## Eleventy Collections
 
-**FILL IN DOCUMENTATION**
+**FILL IN DOCUMENTATION!**
 
 ### Advanced Filtering & Sorting of Collection
 
