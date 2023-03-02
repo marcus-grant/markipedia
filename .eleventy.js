@@ -42,6 +42,8 @@ module.exports = function(eleventyConfig) {
     authorName: 'Marcus Grant',
   });
 
+  console.log(`Using URL: ${eleventyConfig.globalData.meta.url}`);
+
   // Markdown-it customizations
   eleventyConfig.setLibrary('md', mdIt);
 
