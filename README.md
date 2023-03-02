@@ -218,7 +218,7 @@ module.exports = {
 };
 ```
 
-#### Further Reading
+#### Eleventy Debugging: Further Reading
 
 A lot of this section's tips came from these
 [tips for debugging 11ty (from griffa.dev)][griffa-tips-debug-11ty].
@@ -370,7 +370,7 @@ we simply do something like this to render the title into HTML.
 {%- endfor -%}
 ```
 
-### Further Reading
+### Eleventy Collections: Further Reading
 
 A lot of this information came from this
 [part of 11ty's docs on custom filtering & sorting][11ty-collections-custom-filt-sort]
@@ -391,6 +391,84 @@ module.exports = function(eleventyConfig) {
   });
 ```
 
+## Markdown-It
+
+### Install Markdown-It
+
+Markdown-It is the default markdown parser for 11ty.
+To install it:
+
+```sh
+npm install markdown-it
+```
+
+### Configure Markdown-It
+
+Here is some example configuration for markdown-it.
+
+```js
+// ./.eleventy.js
+const md = require('markdown-it')({
+  html: true,
+  linkify: true,
+  // ... other options ...
+});
+```
+
+### Markdown-It Plugins
+
+To install a plugin for markdown-it,
+you can use the `use` method on the markdown-it instance.
+
+```js
+// ./.eleventy.js
+const md = require('markdown-it')({
+  html: true,
+  linkify: true,
+  // ... other options ...
+}).use(require('markdown-it-replace-link'));
+```
+
+In the next section is information on some of the specific plugin usages of
+some of the more common ones I use.
+Starting with the [markdown-it-replace-link][md-it-plug-replace-link] plugin.
+
+### Markdown-It Replace Link
+
+The plugin [markdown-it-replace-link][md-it-plug-replace-link] allows you to
+insert special replacement functions for the incoming text of a link.
+This happens when markdown-it is parsing the text of a link,
+and it's about to create a link element.
+To install it:
+
+```sh
+npm install markdown-it-replace-link
+```
+
+Then in your 11ty configuration,
+Assuming the markdown link syntax below,
+of text `Hello` & link URL `test`,
+and the following eleventy configuration using this plugin.
+
+```markdown
+[Hello](test)
+```
+
+```js
+// ./.eleventy.js
+const md = require('markdown-it')({
+  html: true,
+  linkify: true,
+  replaceLink: function(link, env, token, htmlToken){
+    return 'https://example.com/' + link;
+  }
+  // ... other options ...
+}).use(require('markdown-it-replace-link'));
+```
+
+Now every link in the markdown files will be prefixed with `https://example.com/`.
+So the example markdown link above would become: `https://example.com/test`.
+
 ## References
 
 ### Web Links
@@ -407,6 +485,7 @@ module.exports = function(eleventyConfig) {
 * [gray-matter: Frontmatter YAML parser (from Github by jonschlinkert)][gh-gray-matter]
 * [Global Data (from 11ty.dev/docs)][11ty-data-global]
 * [Why I Migrated from Gatsby to Eleventy (from marcradziwill by Marc Radziwill)][why-gatsby-to-11ty-radziwill]
+* [markdown-it-replace-link: Markdown-It plugin for replacing links (from GitHub by Martin Heidegger)][md-it-plug-replace-link]
 
 <!-- Hidden Reference Links Below Here -->
 [11ty]: 11ty.dev "Eleventy (11ty) Homepage"
@@ -421,6 +500,7 @@ module.exports = function(eleventyConfig) {
 [gh-gray-matter]: https://github.com/jonschlinkert/gray-matter "gray-matter: Frontmatter YAML parser (from Github by jonschlinkert)"
 [11ty-data-global]: https://www.11ty.dev/docs/data-global/ "Global Data (from 11ty.dev/docs)"
 [why-gatsby-to-11ty-radziwill]: ./https://marcradziwill.com/blog/why-i-migrated-my-website-from-gatsbyjs-to-eleventy/ "Why I Migrated from Gatsby to Eleventy (from marcradziwill by Marc Radziwill)"
+[md-it-plug-replace-link]: https://github.com/martinheidegger/markdown-it-replace-link "markdown-it-replace-link: Markdown-It plugin for replacing links (from GitHub by Martin Heidegger)"
 
 ### Note Links
 

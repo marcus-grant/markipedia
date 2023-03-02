@@ -16,6 +16,8 @@
   "author": "",
   "license": "AGPLv3",
   "dependencies": {
+    "markdown-it": "^13.0.1",
+    "markdown-it-replace-link": "^1.2.0",
     "notes": "github:marcus-grant/notes#main"
   },
   "devDependencies": {
