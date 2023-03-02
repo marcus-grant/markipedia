@@ -7,4 +7,5 @@
         "./site/notes",
     ],
     "liquid.format.enable": true,
+    "editor.rulers": [80, 100, 120],
 }

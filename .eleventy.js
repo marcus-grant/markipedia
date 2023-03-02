@@ -1,3 +1,37 @@
+const transformMarkdownLink = function(link, url) {
+  // // Remove the .md extension
+  // const newLink = link.replace(/\.md$/, '');
+  // // Remove the ./ prefix if it exists
+  // if (newLink.startsWith('./')) {
+  //   newLink = newLink.replace('./', '');
+  // }
+  // // Now with no relative path prefix, add a parent directory prefix
+  // newLink = `../${newLink}`;
+  // return newLink;
+  const noteUrl = `${url}/notes/`;
+  return noteUrl + link.replace(/\.md$/, '') // Remove the .md extension
+                      .replace(/^\.\//, '') // Remove ./ prefix if it exists
+                      .replace(/\.\.\//g, ''); // Remove parent prefix (../)
+};
+
+const replaceLink = function(link, env, token, htmlToken) {
+  if (link.endsWith('.md')) return transformMarkdownLink(link, env.meta.url);
+  // TODO: Use this method to change location of image link types
+};
+
+const mdOptions = {
+  html: true,
+  linkify: true,
+  replaceLink: replaceLink,
+};
+
+const mdIt = require('markdown-it')({
+  html: true,
+  linkify: true,
+  replaceLink,
+}).use(require('markdown-it-replace-link'));
+
+// Root eleventy config export
 module.exports = function(eleventyConfig) {
   // Add global data
   eleventyConfig.addGlobalData('meta', {
@@ -7,6 +41,9 @@ module.exports = function(eleventyConfig) {
       + 'built with Eleventy & the Zettelkasten method.'),
     authorName: 'Marcus Grant',
   });
+
+  // Markdown-it customizations
+  eleventyConfig.setLibrary('md', mdIt);
 
   // Add notes to collection
   eleventyConfig.addCollection('notes', function(collection) {
