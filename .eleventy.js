@@ -1,22 +1,29 @@
 const transformMarkdownLink = function(link, url) {
-  // // Remove the .md extension
-  // const newLink = link.replace(/\.md$/, '');
-  // // Remove the ./ prefix if it exists
-  // if (newLink.startsWith('./')) {
-  //   newLink = newLink.replace('./', '');
-  // }
-  // // Now with no relative path prefix, add a parent directory prefix
-  // newLink = `../${newLink}`;
-  // return newLink;
   const noteUrl = `${url}/notes/`;
   return noteUrl + link.replace(/\.md$/, '') // Remove the .md extension
                       .replace(/^\.\//, '') // Remove ./ prefix if it exists
                       .replace(/\.\.\//g, ''); // Remove parent prefix (../)
 };
 
-const replaceLink = function(link, env, token, htmlToken) {
-  if (link.endsWith('.md')) return transformMarkdownLink(link, env.meta.url);
-  // TODO: Use this method to change location of image link types
+const transformImageLink = function(link, url) {
+  let linkSuffix = link;
+  const linkPrefix = `${url}/notes/`; // Define base/prefix part of URL
+  // While the link contains a ./ or ../ prefix, remove it
+  while(linkSuffix.startsWith('./') || linkSuffix.startsWith('../')) {
+    linkSuffix = linkSuffix.replace('./', '');
+    linkSuffix = linkSuffix.replace('../', '');
+  } return linkPrefix + linkSuffix; // Combine the base/prefix and suffix of link
+}
+
+const replaceLink = function(link, env, token) {
+  const { url } = env.meta;
+  let result;
+  if (token.type === 'link_open') {
+    result = link.endsWith('.md') ? transformMarkdownLink(link, url) : undefined;
+  } else if (token.type === 'image') {
+    result = transformImageLink(link, url);
+  }
+  return result;
 };
 
 const mdOptions = {
@@ -41,8 +48,6 @@ module.exports = function(eleventyConfig) {
       + 'built with Eleventy & the Zettelkasten method.'),
     authorName: 'Marcus Grant',
   });
-
-  console.log(`Using URL: ${eleventyConfig.globalData.meta.url}`);
 
   // Markdown-it customizations
   eleventyConfig.setLibrary('md', mdIt);
@@ -72,28 +77,6 @@ module.exports = function(eleventyConfig) {
 
   // Ignore all files except markdown in the notes folder
   eleventyConfig.setTemplateFormats(['liquid', 'md', 'njk', 'html', 'css', 'png', 'jpg', 'jpeg']);
-
-  //Modify any image paths to be relative to the root
-  eleventyConfig.addTransform('imgPath', function(content, outputPath) {
-    if (outputPath && outputPath.endsWith('.html')) {
-      const imgPathRegex = /(<img.*?src=")(.*?)"/g;
-      content = content.replace(imgPathRegex, function(_, p1, p2) {
-        // If the path has a current relative directory mark,
-        // replace it with a parent dir mark
-        let newTag = '';
-        if (p2.startsWith('./')) {
-          newTag = `${p1}${p2.replace('./', '../')}"`;
-        } // If the path has no relative directory mark, add a parent dir mark
-        else if (!p2.startsWith('../')) {
-          newTag = `${p1}../${p2}"`;
-        } else { // Otherwise just return the original tag
-          newTag = `${p1}${p2}"`;
-        } return newTag;
-      });
-    }
-
-    return content;
-  });
 
   // Add debugger filter to debug data passed to templates
    eleventyConfig.addFilter('debugger', function(item) {
