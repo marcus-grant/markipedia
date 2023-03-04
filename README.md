@@ -469,6 +469,111 @@ const md = require('markdown-it')({
 Now every link in the markdown files will be prefixed with `https://example.com/`.
 So the example markdown link above would become: `https://example.com/test`.
 
+Images work as well, you just need to check the `token.type` property.
+Then run the same procedure to change the link.
+
+```js
+// ./.eleventy.js
+const md = require('markdown-it')({
+  html: true,
+  linkify: true,
+  replaceLink: function(link, env, token, htmlToken){
+    if (token.type === 'image') {
+      return 'https://example.com/img/' + link;
+    }
+    return link;
+  }
+  // ... other options ...
+}).use(require('markdown-it-replace-link'));
+```
+
+### Plugin-MathJax
+
+The plugin [@mdit/plugin-mathjax][mdit-plug-mathjax] allows *markdown-it* to
+render math equations using the [MathJax][mathjax-zk] syntax.
+It is based on the [@mdit/plugin-tex][mdit-plug-tex] plugin.
+Decide which subset of LaTeX you need, if only math expressions, then use
+`@mdit/plugin-mathjax`.
+
+#### Install Plugin-MathJax
+
+To install the plugin, just use npm or equivalent.
+
+```sh
+npm install @mdit/plugin-mathjax
+```
+
+### Configure Plugin-MathJax
+
+This plugin comes in three parts, two of which gets *used* in
+the markdown-it `use` call.
+First you need to call `createMathJaxInstance` to create the instance.
+Second you need to `use` the `mathjax` object from the plugin and
+the created instance.
+
+```js
+const MarkdownIt = require('markdown-it');
+const {
+  createMathJaxInstance,
+  mathjax,
+  generateMathjaxStyle,
+} = require('@mdit/plugin-mathjax');
+
+mathJaxOptions = {
+  // ... options ...
+};
+
+const mathjaxInstance = createMathJaxInstance(mathJaxOptions);
+const mdIt = MarkdownIt().use(mathjax, mathjaxInstance);
+
+const html = mdIt.render('$$E = mc^2$$')
+const style = generateMathjaxStyle(mathjaxInstance);
+```
+
+### Markdown-It Plugin: MathJax3
+
+#### Install
+
+```sh
+npm install markdown-it markdown-it-mathjax3
+```
+
+#### Use
+  
+```js
+var md = require('markdown-it')(),
+    mathjax3 = require('markdown-it-mathjax3');
+
+md.use(mathjax3);
+
+// double backslash is required for javascript strings, but not html input
+var result = md.render('# Math Rulez! \n  $\\sqrt{3x-1}+(1+x)^2$');
+```
+
+### Eleventy-Plugin-MathJax
+
+In the end I found this plugin the easiest to use.
+Though I would have preferred to use a markdown-it plugin,
+but being based on eleventy it's reasonable to expect more simplicity and
+tighter coupling to the workflow of the project.
+
+#### Install
+
+```sh
+npm install eleventy-plugin-mathjax
+```
+
+#### Use
+
+```js
+// ./.eleventy.js
+module.exports = function(eleventyConfig) {
+  eleventyConfig.addPlugin(require('eleventy-plugin-mathjax'));
+};
+```
+
+https://github.com/tsung-ju/eleventy-plugin-mathjax
+
 ## References
 
 ### Web Links
@@ -486,6 +591,9 @@ So the example markdown link above would become: `https://example.com/test`.
 * [Global Data (from 11ty.dev/docs)][11ty-data-global]
 * [Why I Migrated from Gatsby to Eleventy (from marcradziwill by Marc Radziwill)][why-gatsby-to-11ty-radziwill]
 * [markdown-it-replace-link: Markdown-It plugin for replacing links (from GitHub by Martin Heidegger)][md-it-plug-replace-link]
+* [Markdown-It Plugins: @mdit/plugin-mathjax][mdit-plug-mathjax]
+* [Markdown-It Plugins: @mdit/plugin-tex][mdit-plug-tex]
+* [Markdown It Plugin: MathJax3 (from npmjs.com by nzt)][mdit-mathjax3]
 
 <!-- Hidden Reference Links Below Here -->
 [11ty]: 11ty.dev "Eleventy (11ty) Homepage"
@@ -501,12 +609,17 @@ So the example markdown link above would become: `https://example.com/test`.
 [11ty-data-global]: https://www.11ty.dev/docs/data-global/ "Global Data (from 11ty.dev/docs)"
 [why-gatsby-to-11ty-radziwill]: ./https://marcradziwill.com/blog/why-i-migrated-my-website-from-gatsbyjs-to-eleventy/ "Why I Migrated from Gatsby to Eleventy (from marcradziwill by Marc Radziwill)"
 [md-it-plug-replace-link]: https://github.com/martinheidegger/markdown-it-replace-link "markdown-it-replace-link: Markdown-It plugin for replacing links (from GitHub by Martin Heidegger)"
+[mdit-plug-mathjax]: https://mdit-plugins.github.io/mathjax.html "Markdown-It Plugins: @mdit/plugin mathjax"
+[mdit-plug-tex]: https://mdit-plugins.github.io/tex.html "Markdown-It Plugins: @mdit/plugin-tex"
+[mdit-mathjax3]: https://www.npmjs.com/package/markdown-it-mathjax3 "Markdown It Plugin: MathJax3 (from npmjs.com by nzt)"
 
 ### Note Links
 
 * [Glob Patterns][glob-zk]
 * [Regular Expressions][regex-zk]
+* [MathJax][mathjax-zk]
 
 <!-- Hidden Reference Links Below Here -->
-[glob-zk]: ./site/notes/glob-pattern.md "Glob Patterns"
-[regex-zk]: ./site/notes/regex.md "Regular Expressions"
+[glob-zk]: glob-pattern.md "Glob Patterns"
+[regex-zk]: regex.md "Regular Expressions"
+[mathjax-zk]: mathjax.md "MathJax"
