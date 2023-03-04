@@ -1,7 +1,8 @@
 {
     "cSpell.words": [
         "Markipedia",
-        "mdman"
+        "mdman",
+        "npmjs"
     ],
     "markdownlint.ignore": [
         "./site/notes",

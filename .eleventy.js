@@ -36,7 +36,10 @@ const mdIt = require('markdown-it')({
   html: true,
   linkify: true,
   replaceLink,
-}).use(require('markdown-it-replace-link'));
+}).use(
+  require('markdown-it-replace-link'),
+  require('markdown-it-mathjax3'),
+);
 
 // Root eleventy config export
 module.exports = function(eleventyConfig) {
@@ -48,6 +51,9 @@ module.exports = function(eleventyConfig) {
       + 'built with Eleventy & the Zettelkasten method.'),
     authorName: 'Marcus Grant',
   });
+
+  eleventyConfig.addPlugin(require("eleventy-plugin-mathjax"));
+  
 
   // Markdown-it customizations
   eleventyConfig.setLibrary('md', mdIt);
