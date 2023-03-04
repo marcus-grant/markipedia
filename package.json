@@ -16,9 +16,7 @@
   "author": "",
   "license": "AGPLv3",
   "dependencies": {
-    "@mdit/plugin-mathjax": "^0.3.0",
     "markdown-it": "^13.0.1",
-    "markdown-it-mathjax3": "^4.3.2",
     "markdown-it-replace-link": "^1.2.0",
     "notes": "github:marcus-grant/notes#main"
   },
