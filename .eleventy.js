@@ -38,7 +38,6 @@ const mdIt = require('markdown-it')({
   replaceLink,
 }).use(
   require('markdown-it-replace-link'),
-  require('markdown-it-mathjax3'),
 );
 
 // Root eleventy config export
