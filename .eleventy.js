@@ -53,9 +53,11 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addPlugin(require("eleventy-plugin-mathjax"));
   
-
   // Markdown-it customizations
   eleventyConfig.setLibrary('md', mdIt);
+
+  // Add syntax highlighting plugin
+  eleventyConfig.addPlugin(require("@11ty/eleventy-plugin-syntaxhighlight"));
 
   // Add notes to collection
   eleventyConfig.addCollection('notes', function(collection) {

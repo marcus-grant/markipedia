@@ -550,6 +550,29 @@ md.use(mathjax3);
 var result = md.render('# Math Rulez! \n  $\\sqrt{3x-1}+(1+x)^2$');
 ```
 
+## Eleventy Plugins
+
+### Eleventy-Plugin-SyntaxHighlight
+
+#### Syntax Highlighting Plugin
+
+A pack of 11ty plugins for PrismJS
+
+#### Install Highlight Plugin
+
+```sh
+npm install @11ty/eleventy-plugin-syntaxhighlight --save-dev
+```
+
+```js
+// ./.eleventy.js
+const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
+
+module.exports = function(eleventyConfig) {
+  eleventyConfig.addPlugin(syntaxHighlight);
+};
+```
+
 ### Eleventy-Plugin-MathJax
 
 In the end I found this plugin the easiest to use.
@@ -557,13 +580,13 @@ Though I would have preferred to use a markdown-it plugin,
 but being based on eleventy it's reasonable to expect more simplicity and
 tighter coupling to the workflow of the project.
 
-#### Install
+#### Install Eleventy-Plugin-MathJax
 
 ```sh
 npm install eleventy-plugin-mathjax
 ```
 
-#### Use
+#### Use Eleventy-Plugin-MathJax
 
 ```js
 // ./.eleventy.js
@@ -572,7 +595,10 @@ module.exports = function(eleventyConfig) {
 };
 ```
 
-https://github.com/tsung-ju/eleventy-plugin-mathjax
+#### More Info on Eleventy-Plugin-MathJax
+
+* [Eleventy-Plugin-MathJax on Github][plug-mathjax-11ty]
+
 
 ## References
 
@@ -594,6 +620,7 @@ https://github.com/tsung-ju/eleventy-plugin-mathjax
 * [Markdown-It Plugins: @mdit/plugin-mathjax][mdit-plug-mathjax]
 * [Markdown-It Plugins: @mdit/plugin-tex][mdit-plug-tex]
 * [Markdown It Plugin: MathJax3 (from npmjs.com by nzt)][mdit-mathjax3]
+* [Eleventy-Plugin-MathJax on Github][plug-mathjax-11ty]
 
 <!-- Hidden Reference Links Below Here -->
 [11ty]: 11ty.dev "Eleventy (11ty) Homepage"
@@ -612,6 +639,7 @@ https://github.com/tsung-ju/eleventy-plugin-mathjax
 [mdit-plug-mathjax]: https://mdit-plugins.github.io/mathjax.html "Markdown-It Plugins: @mdit/plugin mathjax"
 [mdit-plug-tex]: https://mdit-plugins.github.io/tex.html "Markdown-It Plugins: @mdit/plugin-tex"
 [mdit-mathjax3]: https://www.npmjs.com/package/markdown-it-mathjax3 "Markdown It Plugin: MathJax3 (from npmjs.com by nzt)"
+[plug-mathjax-11ty]: https://github.com/tsung-ju/eleventy-plugin-mathjax "Eleventy-Plugin-MathJax on Github"
 
 ### Note Links
 
