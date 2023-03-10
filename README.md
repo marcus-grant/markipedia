@@ -4,6 +4,9 @@
 
 ## Introduction
 
+***TODO:*** A lot of these links could be note links, change them.
+***TODO:*** A lot of words here reference concepts that have note links, apply them.
+
 Markipedia is my personal Wikipedia that
 is created using an [eleventy][11ty] static site generator.
 The notes are all markdown notes with
@@ -134,7 +137,43 @@ Now put it to work with templating syntax, front matter, and data files.
 
 ## Eleventy Configuration
 
-This is where all the logic happens, **FILL IN DOCUMENTATION**.
+### Overview
+
+***TODO:*** Add notes about all parts of
+[this](https://www.11ty.dev/docs/config/) documentation page on the configs.
+
+Configuration files are optional.
+Add an `.eleventy.js` file to the root of your project directory to
+configure Eleventy to your own project’s needs.
+It might look like this:
+
+```js
+module.exports = function(eleventyConfig) {
+  // Return your Object options:
+  return {
+    dir: {
+      input: "views",
+      output: "dist"
+    }
+  }
+}
+```
+
+Returns are either object literals or callback functions.
+Callback functions are preferred and
+allow further customization using Eleventy's provided helper methods.
+
+* Add [Filters][11ty-docs-filters] 
+* Add [Shortcodes][11ty-docs-shortcodes]
+* Add [Javascript Functions][11ty-docs-js-funcs]
+* Add custom [Collections][11ty-docs-collections]
+* Add some [Plugins][11ty-docs-plugs]
+
+### Configuration Options
+
+#### Input Directory
+
+Controls the top level directory/file/glob
 
 ### Debugger Filter
 
@@ -217,6 +256,143 @@ module.exports = {
   // ...
 };
 ```
+
+## Templates
+
+### Templates Overview
+
+***TODO:*** *This includes notes on Nunjucks*
+*Add note links to nunjucks and jinja explaining their similarities and differences*.
+
+### Include/Extend Templates
+
+Templates can be used as components to a larger composition of templates.
+You might have a navigation bar template that is included in every site template.
+You might also have a `main` HTML tag wrapper template.
+
+To use another template in another template,
+first you need to have an `_includes` directory in the root of one of
+your Eleventy input directories and configurations.
+Then you can use the `include` tag to include another template.
+
+Below we'll define a `./_includes/hello.njk` template:
+
+```njk
+{# ./_includes/hello.njk #}
+<h1>Hello World!</h1>
+```
+
+We could include it in our site index template by
+using the template engine's `include` or `extends` tag.
+It's a bit different for each template engine, there's a table below showing them.
+Below is the root index template of the site using nunjucks,
+it uses `include` to pull in the templates of `hello.njk`.
+
+```njk
+{# ./index.njk #}
+<html>
+  <body>
+    {% include "hello.njk" %}
+    <p>This is my site.</p>
+  </body>
+</html>
+```
+
+This results in the following HTML:
+
+```html
+<!-- ./_site/index/index.html -->
+<html>
+  <body>
+    <h1>Hello World!</h1>
+    <p>This is my site.</p>
+  </body>
+</html>
+```
+
+### Template Engine Include/Extend Tags
+
+| Engine     | Include Tag                   | Extend Tag                    |
+| ---------- | ----------------------------- | ----------------------------- |
+| Nunjucks   | `{% include "hello.njk" %}`   | `{% extends "hello.njk" %}`   |
+| Liquid     | `{% include "hello.njk" %}`   | `{% extends "hello.njk" %}`   |
+| EJS        | `<%- include("hello.njk") %>` | `<%- include("hello.njk") %>` |
+| Pug        | `include hello.njk`           | `include hello.njk`           |
+| Handlebars | `{{> hello.njk}}`             | `{{> hello.njk}}`             |
+| Mustache   | `{{> hello.njk}}`             | `{{> hello.njk}}`             |
+
+
+### Layout Chaining
+
+#### Layout Chaining Overview
+
+Your layouts can use other layouts, in a chain of layout templates.
+Add the same `layout` front matter data to your layout template and it'll chain.
+You don't have to use the same template engine for each layout.
+
+```markdown
+<!--layout-chain-example.md-->
+---
+layout: mainlayout.njk
+title: My Blog
+---
+# My Blog
+```
+
+We want to add a main element around our post's content because like accessibility.
+
+Here's what `mainlayout.njk` would look like:
+
+```njk
+{# mainlayout.njk #}
+---
+layout: mylayout.njk
+myOtherData: hello
+---
+<main>{{ content | safe }}</main>
+```
+
+This layout would then be itself wrapped in the same `mylayout.njk` from
+the previous example.
+
+```njk
+{# ./_includes/mylayout.njk #}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    {{ content | safe }}
+  </body>
+</html>
+```
+
+Together, this *layout chain* renders the below HTML output:
+
+```html
+<!--./_site/layout-chain-example/index.html-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Rad Blog</title>
+  </head>
+  <body>
+    <main>
+      <h1>My Rad Markdown Blog Post<h1>
+    </main>
+  </body>
+</html>
+```
+
+#### Layout Chaining Further Reading
+
+More detailed documentation exists on Eleventy's
+[documentation on layout chaining][11ty-docs-layout-chain].
 
 #### Eleventy Debugging: Further Reading
 
@@ -609,7 +785,13 @@ module.exports = function(eleventyConfig) {
 * [Getting Started (from 11ty.dev/docs)][11ty-get-start]
 * [Template Languages (from 11ty.dev/docs)][11ty-templates]
 * [BrowserSync Docs: Requirements (from browsersync.io)][browsersync-docs]
+* [Filters (from 11ty.dev/docs)][11ty-docs-filters]
+* [Shortcodes (from 11ty.dev/docs)][11ty-docs-shortcodes]
+* [Javascript Template Functions][11ty-docs-js-funcs]
+* [Collections (using tags)(from 11ty.dev/docs)][11ty-docs-collections]
+* [Plugins (from 11ty.dev/docs)][11ty-docs-plugs]
 * [Layouts (from 11ty.dev/docs)][11ty-layouts]
+* [Layout Chaining (from 11ty.dev/docs)][11ty-docs-layout-chain]
 * [Collections: Custom Filtering & Sorting (from 11ty.dev/docs)][11ty-collections-custom-filt-sort]
 * [Tips for Debugging 11ty (from griffa.dev)][griffa-tips-debug-11ty]
 * [Transform (from 11ty.dev/docs)][11ty-docs-config-transform]
@@ -628,7 +810,13 @@ module.exports = function(eleventyConfig) {
 [11ty-get-start]: https://www.11ty.dev/docs/getting-started/ "Getting Started (from 11ty.dev/docs)"
 [11ty-templates]: https://www.11ty.dev/docs/languages/ "Template Languages (from 11ty.dev/docs)"
 [browsersync-docs]: https://browsersync.io/docs/#requirements "BrowserSync Docs: Requirements (from browsersync.io)"
+[11ty-docs-filters]: https://www.11ty.dev/docs/filters/ "Filters (from 11ty.dev/docs)"
 [11ty-layouts]: https://www.11ty.dev/docs/layouts/ "Layouts (from 11ty.dev/docs)"
+[11ty-docs-layout-chain]: https://www.11ty.dev/docs/layout-chaining/ "Layout Chaining (from 11ty.dev/docs)"
+[11ty-docs-shortcodes]: https://www.11ty.dev/docs/shortcodes/ "Shortcodes (from 11ty.dev/docs)"
+[11ty-docs-js-funcs]: https://www.11ty.dev/docs/languages/javascript/#javascript-template-functions "Javascript Template Functions"
+[11ty-docs-collections]: https://www.11ty.dev/docs/collections/ "Collections (using tags)(from 11ty.dev/docs)"
+[11ty-docs-plugs]: https://www.11ty.dev/docs/plugins/ "Plugins (from 11ty.dev/docs)"
 [11ty-collections-custom-filt-sort]: https://www.11ty.dev/docs/collections/#advanced-custom-filtering-and-sorting "Collections: Custom Filtering & Sorting (from 11ty.dev/docs)"
 [griffa-tips-debug-11ty]: https://griffa.dev/posts/tips-for-debugging-in-11ty/ "Tips for Debugging 11ty (from griffa.dev)"
 [11ty-docs-config-transform]: https://www.11ty.dev/docs/config/#transforms "Transform (from 11ty.dev/docs)"
