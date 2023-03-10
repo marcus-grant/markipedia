@@ -775,6 +775,119 @@ module.exports = function(eleventyConfig) {
 
 * [Eleventy-Plugin-MathJax on Github][plug-mathjax-11ty]
 
+## External Workflows
+
+### TailwindCSS
+
+### TailwindCSS Introduction
+
+***TODO:*** *Add TailwindCSS note when ready to move this to markipedia.*
+
+TailwindCSS is a utility-first CSS framework for rapidly building custom designs.
+It focuses on the design aspect of the CSS,
+instead of creating a framework of pre-defined components.
+Opting instead to give *utility classes* to the developer,
+to compose together to create the desired design.
+
+### Initialize TailwindCSS
+
+First you need the TailwindCSS package.
+
+```sh
+npm install --save-dev tailwindcss@latest
+```
+
+Then you need to initialize the TailwindCSS configuration file along with
+a `./styles/` directory *(optional)*.
+Here we'll put the TailwindCSS config file in `./tailwind.config.js` and
+define it with starting configurations like this.
+
+```js
+// ./styles/tailwind.config.js
+module.exports = {
+  content: ['_site/**/*.html'],
+  safelist: [],
+  theme: {
+    extend: {
+      colors: {
+        change: 'transparent',
+      },
+    },
+  },
+  plugins: [],
+};
+```
+
+Then create a root stylesheet file `./styles/tailwind.css` and
+import the first sets of tailwindcss styles.
+
+```css
+/* ./styles/tailwind.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .change {
+    color: transparent;
+  }
+}
+```
+
+### Configure Eleventy to use TailwindCSS
+
+To use TailwindCSS with Eleventy,
+we need to add a few things to the Eleventy configuration file.
+Eleventy needs to know to watch file changes in the `./styles/` directory,
+to do this we add a `addWatchTarget` call to the configuration file.
+Then we repeat it for the `tailwind.config.js` file,
+as changes there should trigger development server rebuilds.
+
+```js
+const now = Date.now()
+const nowStr = String(now)
+module.exports = function(eleventyConfig) {
+  eleventyConfig.addWatchTarget('./styles/');
+  eleventyConfig.addWatchTarget('./styles/tailwind.config.js');
+  eleventyConfig.addPassthroughCopy({ './_tmp/style.css': './style.css' })
+  eleventyConfig.addShortcode('version', function () {
+    return nowStr;
+  })
+};
+```
+
+The `addPassthroughCopy` call is to copy the generated `./_tmp/style.css` file
+to the root directory of the site,
+so that the eleventy development server can hot reload the changes.
+Finally, the `addShortcode` call is to add a short-code for eleventy to use,
+it adds a version string based on the current time,
+making it easier to track changes to stylesheets.
+
+### Configure Node Scripts
+
+Next, to make it easier to run the TailwindCSS build process along with Eleventy,
+modify the `package.json` file to add a few scripts.
+
+```json
+{
+  "scripts": {
+    "build": "eleventy && npm run build:css",
+    "build:css": "postcss ./styles/tailwind.css -o ./_tmp/style.css",
+    "dev": "eleventy --serve",
+    "dev:css": "postcss ./styles/tailwind.css -o ./_tmp/style.css --watch"
+  }
+}
+```
+
+
+### Further Reading
+
+***TODO:*** *Add TailwindCSS note link*
+* [Add TailwindCSS to Eleventy (by Greg Wolanski from CSS-Tricks)][11ty-tailwind-csstricks]
+
+* [An Eleventy Starter with Tailwind CSS & Alpine.js (by Greg Wolanski from CSS-Tricks)][11ty-tailwind-csstricks]
+[11ty-tailwind-csstricks]: https://css-tricks.com/eleventy-starter-with-tailwind-css-alpine-js/ "An Eleventy Starter with Tailwind CSS & Alpine.js (by Greg Wolanski from CSS-Tricks)"
+
 
 ## References
 
