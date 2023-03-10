@@ -1,9 +1,11 @@
 <!doctype html>
 <html>
-  <head>
+  {% include 'head.njk' %}
+  {# <head>
     <title>{{ meta.siteName }}</title>
-  </head>
-  <body>
+  </head> #}
+  <body class="bg-blue-500 text-white p-4">
+  {# <body> #}
     {% include 'navbar.njk' %}
     <h2>Most Recently Modified Notes</h2>
     {% for note in collections.notes %}

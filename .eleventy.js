@@ -40,6 +40,9 @@ const mdIt = require('markdown-it')({
   require('markdown-it-replace-link'),
 );
 
+const now = Date.now();
+const nowStr = new Date(now).toISOString();
+
 // Root eleventy config export
 module.exports = function(eleventyConfig) {
   // Add global data
@@ -90,6 +93,14 @@ module.exports = function(eleventyConfig) {
     console.log(item);
     debugger;
   });
+
+  // Tailwind CSS
+  eleventyConfig.addWatchTarget('./styles/');
+  eleventyConfig.addWatchTarget('./styles/tailwind.config.js');
+  eleventyConfig.addPassthroughCopy({ './_tmp/style.css': './style.css' })
+  eleventyConfig.addShortcode('version', function () {
+    return nowStr;
+  })
 
   // Return object options
   return {
