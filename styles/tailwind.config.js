@@ -1,12 +1,17 @@
 module.exports = {
-  content: ['site/**/*.html'],
+  content: [
+    // 'site/**/*.html',
+    './site/notes/*.md',
+    './site/**/*.njk',
+    './site/index.njk',
+  ],
   safelist: [],
   theme: {
-    extend: {
-      colors: {
-        change: 'transparent',
-      },
-    },
+    // extend: {
+    //   colors: {
+    //     change: 'transparent',
+    //   },
+    // },
   },
   plugins: [],
 };

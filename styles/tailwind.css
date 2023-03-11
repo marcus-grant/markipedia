@@ -7,3 +7,10 @@
     color: transparent;
   }
 }
+
+/* Add padding to main tag */
+/* @layer components {
+  main {
+    padding: 1rem;
+  }
+} */
