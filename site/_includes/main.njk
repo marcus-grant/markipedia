@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+  {% include 'head.njk' %}
+  <body class="flex flex-col h-screen bg-gray-50">
+    {% include 'nav-header.njk' %}
+    {# add tailwind classes for flex shrink and padding #}
+    {# <main class="col-span-">
+        {{ content | safe }} #}
+    <main class="flex-grow">
+        {{ content | safe }}
+    {# TODO: Add footer layout here #}
+    </main>
+  </body>
+</html>
