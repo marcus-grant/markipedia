@@ -40,18 +40,17 @@ const mdIt = require('markdown-it')({
   require('markdown-it-replace-link'),
 );
 
-const now = Date.now();
-const nowStr = new Date(now).toISOString();
+// Compute build datetime
+const now = new Date();
+const nowIso = now.toISOString();
+const nowKebab = nowIso.replace(/:/g, '-').replace(/\./g, '-');
 
 // Root eleventy config export
 module.exports = function(eleventyConfig) {
   // Add global data
   eleventyConfig.addGlobalData('meta', {
-    url: process.env.URL || 'http://localhost:8080',
-    siteName: 'Markipedia',
-    siteDescription: ('Marcus Grant\'s personal Wikipedia, '
-      + 'built with Eleventy & the Zettelkasten method.'),
-    authorName: 'Marcus Grant',
+    buildDateIso: nowIso,
+    buildDateKebab: nowKebab,
   });
 
   eleventyConfig.addPlugin(require("eleventy-plugin-mathjax"));
