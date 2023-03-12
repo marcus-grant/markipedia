@@ -1,14 +1,14 @@
 <!doctype html>
 <html>
   {% include 'head.njk' %}
-  <body class="flex flex-col h-screen bg-gray-50">
+  <body class="flex flex-col h-screen bg-stone">
     {% include 'nav-header.njk' %}
-    {# add tailwind classes for flex shrink and padding #}
-    {# <main class="col-span-">
-        {{ content | safe }} #}
-    <main class="flex-grow">
+    {# TODO: Move these to appropriate page-type layouts #}
+    {# TODO: Figure out how to make prose tables fill the width of the page #}
+    <main
+        class="flex-grow prose prose-lg prose-stone mx-auto prose-table:w-full prose-table:mx-auto"
+    >
         {{ content | safe }}
-    {# TODO: Add footer layout here #}
     </main>
   </body>
 </html>
