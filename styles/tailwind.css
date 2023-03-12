@@ -8,6 +8,21 @@
   }
 }
 
+--
+
+h1,h2,h3,h4,h5,h6 {
+    /* font family similar to Wikipedia, all sans-serif */
+    font-family: markipediaSerif;
+    font-weight: 700;
+}
+
+h1,h2 {
+    font-family: markipediaSans;
+    font-weight: 400;
+    border-bottom: 1px solid #a2a9b1;
+    /* padding-bottom: 0.25rem; */
+}
+
 /* Add padding to main tag */
 /* @layer components {
   main {
