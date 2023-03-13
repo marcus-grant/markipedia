@@ -33,19 +33,19 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            'h1,h2,h3,h4,h5,h6': {
-              fontFamily: ['sans-serif'],
-              fontWeight: theme('fontWeight.700'),
-            },
-            'h1,h2': {
-              fontFamily: ['Linux Libertine', 'Georgia', 'Times', 'serif'],
-              fontWeight: theme('fontWeight.400'),
-              borderBottom: (
-                theme('borderWidth.DEFAULT') + ' '
-                + theme('borderStyle.solid') + ' '
-                + theme('colors.gray.200')
-              ),
-            },
+            // 'h1,h2,h3,h4,h5,h6': {
+            //   fontFamily: ['sans-serif'],
+            //   fontWeight: theme('fontWeight.700'),
+            // },
+            // 'h1,h2': {
+            //   fontFamily: ['Linux Libertine', 'Georgia', 'Times', 'serif'],
+            //   fontWeight: theme('fontWeight.400'),
+            //   borderBottom: (
+            //     theme('borderWidth.DEFAULT') + ' '
+            //     + theme('borderStyle.solid') + ' '
+            //     + theme('colors.gray.200')
+            //   ),
+            // },
             'a': { 'color': theme('colors.blue.900') },
             'a:hover': { 'color': theme('colors.blue.600') },
             'a:visited': { 'color': theme('colors.indigo.900') },

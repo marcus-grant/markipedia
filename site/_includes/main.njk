@@ -4,9 +4,20 @@
   <body class="flex flex-col h-screen bg-stone">
     {% include 'nav-header.njk' %}
     {# TODO: Move these to appropriate page-type layouts #}
-    {# TODO: Figure out how to make prose tables fill the width of the page #}
+    {# TODO: Find way to apply overflow rule to tables and pre tags only #}
     <main
-        class="flex-grow prose prose-lg prose-stone mx-auto prose-table:w-full prose-table:mx-auto"
+        class="flex-grow
+              prose
+              prose-sm
+              lg:prose-base
+              xl:prose-lg
+              2xl:prose-xl
+              prose-stone
+              mx-auto
+              px-2
+              w-full
+              overflow-x-auto
+        "
     >
         {{ content | safe }}
     </main>
