@@ -17,10 +17,11 @@ const transformImageLink = function(link, url) {
 
 const replaceLink = function(link, env, token) {
   const { url } = env.meta;
-  let result;
-  if (token.type === 'link_open') {
-    result = link.endsWith('.md') ? transformMarkdownLink(link, url) : undefined;
-  } else if (token.type === 'image') {
+  let result = link;
+  if (token.type === 'link_open' && link.includes('.md')) {
+      result = transformMarkdownLink(link, url);
+  } 
+  else if (token.type === 'image') {
     result = transformImageLink(link, url);
   }
   return result;
