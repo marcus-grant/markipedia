@@ -21,9 +21,11 @@ h1,h2 {
     /* padding-bottom: 0.25rem; */
 }
 
-/* Add padding to main tag */
-/* @layer components {
-  main {
-    padding: 1rem;
+/* Make tables overflow on small screens */
+@media (max-width: 640px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
   }
-} */
+} 
