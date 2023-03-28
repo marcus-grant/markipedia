@@ -650,6 +650,18 @@ module.exports = function(eleventyConfig) {
   });
 ```
 
+## Data Cascade
+
+The data cascade is a way to add data to a page,
+that will be available to the page's template.
+It can also be used to alter collections or global site data and
+paginate said data.
+
+### Data Cascade: Further Reading
+
+* [11ty's docs on the data cascade][11ty-data-cascade]
+* [Ben Myer's Explanation of the Data Cascade][11ty-data-cascade-benmyers]
+
 ## Markdown-It
 
 ### Install Markdown-It
@@ -1384,6 +1396,8 @@ used to write Tailwind plugins.
 * [Transform (from 11ty.dev/docs)][11ty-docs-config-transform]
 * [gray-matter: Frontmatter YAML parser (from Github by jonschlinkert)][gh-gray-matter]
 * [Global Data (from 11ty.dev/docs)][11ty-data-global]
+* [Data Cascade (from 11ty.dev/docs)][11ty-data-cascade]
+* [I Finally Understand Eleventy's Data Cascade (from benmyers.dev)][11ty-data-cascade-benmyers]
 * [Why I Migrated from Gatsby to Eleventy (from marcradziwill by Marc Radziwill)][why-gatsby-to-11ty-radziwill]
 * [markdown-it-replace-link: Markdown-It plugin for replacing links (from GitHub by Martin Heidegger)][md-it-plug-replace-link]
 * [Markdown-It Plugins: @mdit/plugin-mathjax][mdit-plug-mathjax]
@@ -1412,6 +1426,8 @@ used to write Tailwind plugins.
 [11ty-docs-config-transform]: https://www.11ty.dev/docs/config/#transforms "Transform (from 11ty.dev/docs)"
 [gh-gray-matter]: https://github.com/jonschlinkert/gray-matter "gray-matter: Frontmatter YAML parser (from Github by jonschlinkert)"
 [11ty-data-global]: https://www.11ty.dev/docs/data-global/ "Global Data (from 11ty.dev/docs)"
+[11ty-data-cascade]: https://www.11ty.dev/docs/data-cascade/ "Data Cascade (from 11ty.dev/docs)"
+[11ty-data-cascade-benmyers]: https://benmyers.dev/blog/eleventy-data-cascade/ "I Finally Understand Eleventy's Data Cascade (from benmyers.dev)"
 [why-gatsby-to-11ty-radziwill]: ./https://marcradziwill.com/blog/why-i-migrated-my-website-from-gatsbyjs-to-eleventy/ "Why I Migrated from Gatsby to Eleventy (from marcradziwill by Marc Radziwill)"
 [md-it-plug-replace-link]: https://github.com/martinheidegger/markdown-it-replace-link "markdown-it-replace-link: Markdown-It plugin for replacing links (from GitHub by Martin Heidegger)"
 [mdit-plug-mathjax]: https://mdit-plugins.github.io/mathjax.html "Markdown-It Plugins: @mdit/plugin mathjax"
