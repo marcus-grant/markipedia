@@ -175,88 +175,6 @@ allow further customization using Eleventy's provided helper methods.
 
 Controls the top level directory/file/glob
 
-### Debugger Filter
-
-#### Using a Filter to Debug 11ty
-
-A helpful filter to add to the configuration is one used for debugging.
-It will trigger the `debugger` and
-it will `console.log()` the object passed to it.
-This will make it much easier to figure out the data structures used to
-template pages and work with the generator functions.
-
-So in a template you would use the `debugger` filter by
-taking some data in the template,
-then passing it to the `debugger` filter added in the configuration.
-
-```liquid
-{{ post.data | debugger }}
-```
-
-The `console.log` will then print out in the terminal what
-the `post`'s `data` looks like.
-And if you're on an editor with a node debugger like VSCode,
-it will pause on the filter so you can examine what's going on.
-First however,
-you need to implement the `debugger` filter in the 11ty configuration.
-
-```js
-// .eleventy.js
-module.exports = {
-  // ...
-  eleventyConfig.addFilter("debugger", (...args) => {
-    console.log(...args)
-    debugger;
-  });
-  // ...
-};
-```
-
-#### Debugging with VSCode
-
-Sure,
-`console.log` is helpful,
-but having a full blown debugger like the one built into VSCode is better.
-To debug with VSCode you need to:
-
-1. Create a directory inside the workspace called `./.vscode`
-2. Create a file called `./.vscode/launch.json` inside that directory.
-3. Add a debug task inside the `launch.json` file to run 11ty with the debugger.
-
-```json
-  {
-      "name": "11ty",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceRoot}/node_modules/.bin/eleventy",
-      "stopOnEntry": false,
-      "args": [],
-      "cwd": "${workspaceRoot}",
-      "console": "internalConsole",
-  }
-```
-
-If you want to have it debug while it's live or watching for file changes...
-
-```json
-  "args": ["--watch"],
-```
-
-This also works really well when you need to
-debug collection logic and structure during the data cascade.
-
-```js
-// .eleventy.js
-module.exports = {
-  // ...
-  eleventyConfig.addCollection("series", function(collection) {
-    // i don't know whats in collection.
-    debugger;
-  });
-  // ...
-};
-```
-
 ## Templates
 
 ### Templates Overview
@@ -397,6 +315,172 @@ More detailed documentation exists on Eleventy's
 
 A lot of this section's tips came from these
 [tips for debugging 11ty (from griffa.dev)][griffa-tips-debug-11ty].
+
+### Pagination via Template Front Matter
+
+Front matter can be used to paginate collections.
+As in constructing a page from processing the data within a collection.
+
+```njk
+{# ./index.njk #}
+---
+pagination:
+  data: collections
+  size: 1
+  alias: tag
+permalink: /tags/{{ tag | slug }}/
+---
+<h1>Posts tagged with {{ tag }}</h1>
+```
+
+This template will be used to render a page for each tag in the collection.
+The `pagination` front matter data is used to paginate the collection.
+The `permalink` front matter data is used to set the permalink for each page.
+Note that you can reference the aliased `tag` variable in the permalink which
+comes from the pagination alias.
+
+## Filters
+
+### Filter Basics
+
+Filters are functions that can be used in templates to transform data.
+They are especially useful when accessed through templates.
+They can be assigned in the configuration file,
+or in the template itself.
+
+```js
+// .eleventy.js
+module.exports = function(eleventyConfig) {
+  eleventyConfig.addFilter("myFilter", function(value) {
+    return value.toUpperCase();
+  });
+};
+```
+
+This filter `myFilter` simply takes incoming data and returns it in all caps.
+It can be used in a template like so:
+
+```njk
+{# ./index.njk #}
+{{ "hello world" | myFilter }}
+```
+
+Which results in the following HTML:
+
+```html
+<!-- ./_site/index/index.html -->
+HELLO WORLD
+```
+
+### Accessing Collections in Filters
+
+Filters can be used to access collections.
+This is useful for filtering collections,
+or grouping, sorting, mapping or otherwise transforming them.
+
+```js
+// .eleventy.js
+module.exports = function(eleventyConfig) {
+  eleventyConfig.addFilter("myFilter", function(collection) {
+    return collection.filter(item => item.data.tags.includes("myTag"));
+  });
+};
+```
+
+This filter `myFilter` takes a collection and returns only the items
+that have the tag `myTag`.
+It can be used in a template like so:
+
+```njk
+{# ./index.njk #}
+{% for post in collections.posts | myFilter %}
+  <h1>{{ post.data.title }}</h1>
+{% endfor %}
+```
+
+Which filters the posts collection to only include posts with the tag `myTag`.
+
+### Debugger Filter
+
+#### Using a Filter to Debug 11ty
+
+A helpful filter to add to the configuration is one used for debugging.
+It will trigger the `debugger` and
+it will `console.log()` the object passed to it.
+This will make it much easier to figure out the data structures used to
+template pages and work with the generator functions.
+
+So in a template you would use the `debugger` filter by
+taking some data in the template,
+then passing it to the `debugger` filter added in the configuration.
+
+```liquid
+{{ post.data | debugger }}
+```
+
+The `console.log` will then print out in the terminal what
+the `post`'s `data` looks like.
+And if you're on an editor with a node debugger like VSCode,
+it will pause on the filter so you can examine what's going on.
+First however,
+you need to implement the `debugger` filter in the 11ty configuration.
+
+```js
+// .eleventy.js
+module.exports = {
+  // ...
+  eleventyConfig.addFilter("debugger", (...args) => {
+    console.log(...args)
+    debugger;
+  });
+  // ...
+};
+```
+
+#### Debugging with VSCode
+
+Sure,
+`console.log` is helpful,
+but having a full blown debugger like the one built into VSCode is better.
+To debug with VSCode you need to:
+
+1. Create a directory inside the workspace called `./.vscode`
+2. Create a file called `./.vscode/launch.json` inside that directory.
+3. Add a debug task inside the `launch.json` file to run 11ty with the debugger.
+
+```json
+  {
+      "name": "11ty",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/.bin/eleventy",
+      "stopOnEntry": false,
+      "args": [],
+      "cwd": "${workspaceRoot}",
+      "console": "internalConsole",
+  }
+```
+
+If you want to have it debug while it's live or watching for file changes...
+
+```json
+  "args": ["--watch"],
+```
+
+This also works really well when you need to
+debug collection logic and structure during the data cascade.
+
+```js
+// .eleventy.js
+module.exports = {
+  // ...
+  eleventyConfig.addCollection("series", function(collection) {
+    // i don't know whats in collection.
+    debugger;
+  });
+  // ...
+};
+```
 
 ## Eleventy Collections
 

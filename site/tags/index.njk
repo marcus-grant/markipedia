@@ -1,0 +1,13 @@
+---
+layout: 'main.njk'
+title: Tags (Most Popular First)
+---
+<h1>{{ title }}</h1>
+<ul>
+{% for tag in collections.all | sortAllTagsByCount %}
+  <li>
+    <a href="/tags/{{ tag | slug }}/">{{ tag }}</a>
+    ({{ collections.all | countTag(tag) }})
+  </li>
+{% endfor %}
+</ul>
