@@ -46,6 +46,12 @@ const now = new Date();
 const nowIso = now.toISOString();
 const nowKebab = nowIso.replace(/:/g, '-').replace(/\./g, '-');
 
+// Util functions, move to util module with subdirs
+// Capitalize first letter of string
+const capitalizeFirst = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 // Root eleventy config export
 module.exports = function(eleventyConfig) {
   // Add global data
@@ -64,12 +70,11 @@ module.exports = function(eleventyConfig) {
 
   // Add notes to collection
   eleventyConfig.addCollection('notes', function(collection) {
-    return collection.getFilteredByGlob('site/notes/*.md')
+    const notesCollection =
+      collection.getFilteredByGlob('site/notes/*.md')
       .sort(function(a, b) {
         return b.data.modified - a.data.modified;})
       .map(function(item){
-        // Pull out the first markdown h1 header
-        // debugger;
         if (item.data.title) {
           return item;
         }
@@ -81,8 +86,10 @@ module.exports = function(eleventyConfig) {
         } else { title = h1; }
 
         item.data = { ...item.data, title };
+
         return item;
       });
+    return notesCollection;
   });
 
   // Ignore all files except markdown in the notes folder
@@ -93,6 +100,20 @@ module.exports = function(eleventyConfig) {
     console.log(item);
     debugger;
   });
+
+  // Capitalize first letter of string
+  eleventyConfig.addFilter('capitalizeFirst', capitalizeFirst);
+
+  // Filter by keys of object
+  const tagHelpers = require('./utils/tag-helpers.js')
+  eleventyConfig.addFilter('allTags', tagHelpers.allTags);
+  eleventyConfig.addFilter('filterByTag', tagHelpers.filterByTag);
+  eleventyConfig.addFilter('countTag', tagHelpers.countTag);
+  eleventyConfig.addFilter('countAllTags', tagHelpers.countAllTags);
+  eleventyConfig.addFilter('sortAllTagsByCount', tagHelpers.sortAllTagsByCount);
+
+  // Object keys filter
+  eleventyConfig.addFilter('keys', obj => Object.keys(obj)); 
 
   // Tailwind CSS
   eleventyConfig.addWatchTarget('./styles/');

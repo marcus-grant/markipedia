@@ -1,10 +1,12 @@
 {
     "cSpell.words": [
+        "linkify",
         "mainlayout",
         "Markipedia",
         "mdman",
         "mylayout",
-        "npmjs"
+        "npmjs",
+        "Shortcode"
     ],
     "markdownlint.ignore": [
         "./site/notes",

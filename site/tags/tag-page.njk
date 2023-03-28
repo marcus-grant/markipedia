@@ -1,0 +1,34 @@
+---
+pagination:
+    data: collections
+    size: 1
+    alias: tag
+    filter:
+      - all
+      - post
+      - posts
+      - note
+      - notes
+permalink: /tags/{{ tag | slug }}/
+---
+<h1>
+    Notes tagged with <i>{{ tag | capitalizeFirst }}</i>!
+</h1>
+{# {{ collections.all | filterByTag(tag) | debugger }} #}
+<ul>
+{% for note in collections.all | filterByTag(tag) %}
+  <li> 
+    <a href="{{ note.url }}">
+      <h2>{{ note.data.title }}</h2>
+      <ul>
+        <li>tags: {{ note.data.tags | join(', ') }}</li>
+        <li>created: {{ note.data.created }}</li>
+        <li>modified: {{ note.data.modified }}</li>
+      </ul>
+    </a>
+  </li>
+{% endfor %}
+</ul>
+{# {% for item in collections.tagsMap[tag].items %} #}
+{# {{ collections | debugger }} NOTE THIS IS A COLLECTION ITEM #}
+{# {% endfor %} #}

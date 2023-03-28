@@ -1,0 +1,18 @@
+---
+permalink: '/notes/'
+pageTitle: 'All Notes (Most Recently Modified)'
+---
+<h1>{{ pageTitle }}</h1>
+{% for note in collections.notes %}
+  {# {{ note | debugger }} #}
+  <a href="{{ note.url }}">
+    <div>
+      <h3>{{ note.data.title | default('Untitled!!!') }}</h3>
+      <div>
+        <span>Last Update: {{ note.data.modified | default('n/a') }}</span>
+        <span>First Create: {{ note.data.created | default('n/a') }}</span>
+        <span>Tags: {{ note.data.tags | default([]) | join(', ') }}</span>
+      </div>
+    </div>
+  </a>
+{% endfor %}
