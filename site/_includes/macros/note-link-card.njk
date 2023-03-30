@@ -1,0 +1,27 @@
+
+<h2>Most Recently Modified Notes</h2>
+
+{% macro noteLinkCard(note) %}
+  {% set url = note.url %}
+  {% set title =  note.data.title | default('Untitled!!!') %}
+  {% set tags = note.data.tags | default([]) %}
+  {% set modified = note.data.modified | default('n/a') %}
+  {% set created = note.data.created | default('n/a') %}
+  <a href="{{ url }}" class="card__container flex-auto container mx-auto border-b-2 no-underline text-black">
+    <h3>{{ title }}</h3>
+    <div class="card-row__meta flex-row justify-between py-2">
+      <span class="text-base">tags:</span>
+      {% for tag in tags %}
+        <a
+          href="/tags/{{ tag }}/"
+          {# class="tag__link border-solid border-2 border-black px-1 no-underline text-black flex-grow" #}
+          class="tag__link bg-black px-1 no-underline text-white flex-grow"
+        >{{ tag }}</a>
+      {% endfor %}
+    </div>
+    <div class="card-row__meta flex-row">
+      <small><bold>Updated:</bold> {{ modified | shortDateString }},</small>
+      <small><bold>Created:</bold> {{ created | shortDateString }}</small>
+    </div>
+  </a>
+{% endmacro %}

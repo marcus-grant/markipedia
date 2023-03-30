@@ -52,6 +52,8 @@ const capitalizeFirst = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
+const tagHelpers = require('./utils/tag-helpers.js');
+
 // Root eleventy config export
 module.exports = function(eleventyConfig) {
   // Add global data
@@ -92,6 +94,23 @@ module.exports = function(eleventyConfig) {
     return notesCollection;
   });
 
+  eleventyConfig.addCollection('tags', function(collection) {
+    const taggedNotesCollection = collection
+      .getFilteredByGlob('site/notes/*.md')
+      .filter((item) => !!item.data.tags);
+    const allTags = tagHelpers.allTags(taggedNotesCollection);
+    const tagsCollection = allTags
+      .map((tag) => (
+        {
+          tag,
+          items: tagHelpers.filterByTag(taggedNotesCollection, tag),
+          count: tagHelpers.countTag(taggedNotesCollection, tag),
+          associatedTags: tagHelpers.findAssociatedTags(taggedNotesCollection, tag),
+        }
+      )).sort((tagObjA, tagObjB) => tagObjB.count - tagObjA.count);
+    return tagsCollection;
+  });
+
   // Ignore all files except markdown in the notes folder
   eleventyConfig.setTemplateFormats(['liquid', 'md', 'njk', 'html', 'css', 'png', 'jpg', 'jpeg']);
 
@@ -104,7 +123,12 @@ module.exports = function(eleventyConfig) {
   // Capitalize first letter of string
   eleventyConfig.addFilter('capitalizeFirst', capitalizeFirst);
 
+  // Date filters
+  const dateHelpers = require('./utils/date-helpers.js');
+  eleventyConfig.addFilter('shortDateString', dateHelpers.shortDateString);
+
   // Filter by keys of object
+  // TODO: DELETEME these might not be necessary after the tags collection
   const tagHelpers = require('./utils/tag-helpers.js')
   eleventyConfig.addFilter('allTags', tagHelpers.allTags);
   eleventyConfig.addFilter('filterByTag', tagHelpers.filterByTag);
