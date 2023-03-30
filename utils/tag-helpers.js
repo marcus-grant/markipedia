@@ -1,26 +1,50 @@
-function allTags(data) {
-  const tags = new Set();
-  data
-    .filter((item) => !!item.data.tags)
-    .forEach((item) => item.data.tags.forEach((tag) => tags.add(tag)));
-  return Array.from(tags);
+function allTags(collection) {
+  return Array.from(
+    new Set(
+      collection
+        .filter((item) => !!item.data.tags)
+        .map((item) => item.data.tags)
+        .flat(),
+    ),
+  );
 }
 
-function filterByTag(data, tag) {
-  return data.filter((item) => item.data.tags?.includes(tag));
+function filterByTag(collection, tag) {
+  return collection.filter((item) => item.data.tags?.includes(tag));
 }
 
-function countTag(data, tag) {
-  return filterByTag(data, tag).length;
+function countTag(collection, tag) {
+  return filterByTag(collection, tag).length;
 }
 
-function countAllTags(data) {
-  return allTags(data).map((tag) => [tag, countTag(data, tag)]);
+function countAllTags(collection) {
+  return allTags(collection).map((tag) => (
+    { tag, count: countTag(collection, tag) }
+  ));
 }
 
-function sortAllTagsByCount(data) {
-  return countAllTags(data).sort((a, b) => b[1] - a[1]).map((x) => x[0]);
+function sortAllTagsByCount(collection) {
+  return countAllTags(collection)
+    .sort((a, b) => b.count - a.count)
+    .map((x) => x.tag);
 }
+
+// TODO: FIXME this is producing empty arrays on all tags collections
+function findAssociatedTags(collection, tag) {
+  return Array
+    .from(
+      new Set(
+        filterByTag(collection, tag)
+          .map((item) => item.data.tags)
+          .flat(),
+      ).delete(tag),
+    );
+}
+
+// TODO: DELETEME This might not be needed if we sort this collection as its being built
+// function sortTagsCollectionByCount(tagsCollection) {
+//   return tagsCollection.sort((a, b) => b.count - a.count);
+// }
 
 module.exports = {
   allTags,
@@ -28,4 +52,6 @@ module.exports = {
   countTag,
   countAllTags,
   sortAllTagsByCount,
+  findAssociatedTags,
+  // sortTagsCollectionByCount,
 };
