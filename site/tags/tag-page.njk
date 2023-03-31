@@ -17,7 +17,8 @@ permalink: /tags/{{ tag | slug }}/
 {% from 'macros/note-link-card.njk' import noteLinkCard %}
 {% block content %}
   <content>
-    {% for note in collections.notes %}
+    {{ collections.tags | debugger }}
+    {% for note in collections.tags %}
       {{ noteLinkCard(note) }}
     {% endfor %}
   </content>

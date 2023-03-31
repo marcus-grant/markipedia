@@ -41,11 +41,6 @@ function findAssociatedTags(collection, tag) {
     );
 }
 
-// TODO: DELETEME This might not be needed if we sort this collection as its being built
-// function sortTagsCollectionByCount(tagsCollection) {
-//   return tagsCollection.sort((a, b) => b.count - a.count);
-// }
-
 module.exports = {
   allTags,
   filterByTag,
@@ -53,5 +48,4 @@ module.exports = {
   countAllTags,
   sortAllTagsByCount,
   findAssociatedTags,
-  // sortTagsCollectionByCount,
 };

@@ -1,13 +1,10 @@
 ---
 permalink: '/notes/'
-pageTitle: 'All Notes (Most Recently Modified)'
 ---
-<h1>{{ pageTitle }}</h1>
 {% from 'macros/note-link-card.njk' import noteLinkCard %}
-{% block content %}
-  <content>
-    {% for note in collections.notes %}
-      {{ noteLinkCard(note) }}
-    {% endfor %}
-  </content>
-{% endblock %}
+<h1>All Notes <i>by Update Time</i></h1>
+<content>
+  {% for note in collections.notes %}
+    {{ noteLinkCard(note) }}
+  {% endfor %}
+</content>
