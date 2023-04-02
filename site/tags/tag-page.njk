@@ -1,25 +1,30 @@
 ---
 pagination:
-    data: collections
+    data: collections.tags
     size: 1
-    alias: tag
+    alias: tagObj
     filter:
       - all
       - post
       - posts
       - note
       - notes
-permalink: /tags/{{ tag | slug }}/
+permalink: /tags/{{ tagObj.tag | slug }}/
 ---
-<h1>
-    Notes tagged with <i>{{ tag | capitalizeFirst }}</i>!
-</h1>
+{% set tagTitleStr = tagObj.tag | default('UnTagged') %}
+<h1>Notes tagged with <i>{{ tagTitleStr }}</i>!</h1>
 {% from 'macros/note-link-card.njk' import noteLinkCard %}
-{% block content %}
-  <content>
-    {{ collections.tags | debugger }}
-    {% for note in collections.tags %}
-      {{ noteLinkCard(note) }}
+<content>
+  <h2>Notes</h2>
+{# {{ tagObject | debugger }} #}
+  {% for note in tagObj.items %}
+    {# {{ note | debugger }} #}
+    {{ noteLinkCard(note) }}
+  {% endfor %}
+  <h2>Associated Tags</h2>
+  <ul>
+    {% for associatedTag in tagObj.associatedTags %}
+    <li><a href="/tags/{{ associatedTag }}">{{ associatedTag }}</a></li>
     {% endfor %}
-  </content>
-{% endblock %}
+  </ul>
+</content>

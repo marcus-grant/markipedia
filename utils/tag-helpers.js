@@ -31,14 +31,13 @@ function sortAllTagsByCount(collection) {
 
 // TODO: FIXME this is producing empty arrays on all tags collections
 function findAssociatedTags(collection, tag) {
-  return Array
-    .from(
-      new Set(
-        filterByTag(collection, tag)
-          .map((item) => item.data.tags)
-          .flat(),
-      ).delete(tag),
-    );
+  const tagSet = new Set(
+    filterByTag(collection, tag)
+      .map((item) => item.data.tags)
+      .flat(),
+  );
+  tagSet.delete(tag);
+  return Array.from(tagSet);
 }
 
 module.exports = {

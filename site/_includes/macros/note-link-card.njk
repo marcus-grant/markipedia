@@ -3,8 +3,8 @@
   {% set url = note.url %}
   {% set title =  note.data.title | default('Untitled!!!') %}
   {% set tags = note.data.tags | default([]) %}
-  {% set modified = note.data.modified | default('n/a') %}
-  {% set created = note.data.created | default('n/a') %}
+  {% set modified = note.data.modified | default('n/a') | shortDateString %}
+  {% set created = note.data.created | default('n/a') | shortDateString %}
   <div
     class="card__container flex-auto container mx-auto
     border-black border-solid border-b-2 no-underline text-black"
@@ -12,8 +12,8 @@
     <a href="{{ url }}" class="mx-auto no-underline text-black">
       <h3 class="mt-0">{{ title }}</h3>
       <div class="card-row__meta flex-row">
-        <small><bold>Updated:</bold> {{ modified | shortDateString }},</small>
-        <small><bold>Created:</bold> {{ created | shortDateString }}</small>
+        <small><bold>Updated:</bold> {{ modified }},</small>
+        <small><bold>Created:</bold> {{ created }}</small>
       </div>
     </a>
     <div class="card-row__tags flex-row">
