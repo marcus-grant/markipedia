@@ -112,7 +112,8 @@ module.exports = function(eleventyConfig) {
   });
 
   // Ignore all files except markdown in the notes folder
-  eleventyConfig.setTemplateFormats(['liquid', 'md', 'njk', 'html', 'css', 'png', 'jpg', 'jpeg']);
+  eleventyConfig.setTemplateFormats(['liquid', 'md', 'njk', 'html', 'css',
+    'png', 'jpg', 'jpeg', 'svg', 'gif', 'webp', 'ico', 'woff', 'woff2', 'ttf', 'oft']);
 
   // Add debugger filter to debug data passed to templates
    eleventyConfig.addFilter('debugger', function(item) {
