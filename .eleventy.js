@@ -62,7 +62,12 @@ module.exports = function(eleventyConfig) {
     buildDateKebab: nowKebab,
   });
 
-  eleventyConfig.addPlugin(require("eleventy-plugin-mathjax"));
+  eleventyConfig.addPlugin(require("eleventy-plugin-mathjax"), {
+    output: 'chtml',
+    chtml: {
+      fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2',
+    },
+  });
   
   // Markdown-it customizations
   eleventyConfig.setLibrary('md', mdIt);
